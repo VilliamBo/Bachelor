@@ -1,0 +1,14 @@
+
+@startuml
+    agent au as "Audio"
+
+    card HMU as "Headset messurement unit" {
+        agent recau as "Audio recording"
+        au --> recau
+        agent autrans as "Digital audio transmission"
+        recau --> autrans
+    }
+    
+    
+
+@enduml
