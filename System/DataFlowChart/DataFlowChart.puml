@@ -1,14 +1,58 @@
 
 @startuml
     agent au as "Audio"
+    interface start #Black
 
-    card HMU as "Headset messurement unit" {
+    card HMU as "Headset messurement unit" #aliceblue;line:blue;line.dotted;text:blue { 
         agent recau as "Audio recording"
-        au --> recau
-        agent autrans as "Digital audio transmission"
-        recau --> autrans
+        agent hmupacktrans as "HMU package transmission"
+        package hmupack as "HMU package" {
+            agent aufile as "Digital audio file\nHMU ID\nTime stamp"
+        }
     }
+
+
+    card PU as "Processeing unit" #aliceblue;line:blue;line.dotted;text:blue {
+    agent hmupackrece as "HMU package recieved"
+        agent auproc as "Audio processing" 
+        agent noisemes as "Noise messurement"
+        agent acshokdet as "Acustic shock detection"
+        package pupack as "PU package" {
+            agent noisedata as "Noise Data\nShock Data\nHMU ID\nTime stamp"
+        }
+    }
+
+    database DB1 as "
+    HMU ID 1, Noise data, Acustic shok data, Time stamp
+    ----
+    HMU ID 2, Noise data, Acustic shok data, Time stamp
+    ----
+    ...
+    ----
+    HMU ID n, Noise data, Acustic shok data, Time stamp
+    ====
+    User ID 1, HMU ID 9
+    ----
+    User ID 2, NoHeadet
+    ----
+    User ID 3, HMU ID 2
+    ---
+    ...
+    ---
+    User ID n, HMU ID n
+    "  
     
+
+    start -> au
+    au -> recau
+    recau --> hmupack
+    hmupack --> hmupacktrans
     
+    hmupacktrans -> hmupackrece
+    auproc <-- hmupackrece
+    noisemes <-- auproc
+    noisemes -> acshokdet
+    acshokdet --> pupack
+    pupack --> DB1
 
 @enduml
