@@ -15,7 +15,7 @@
     card PU as "PU - Processsing Unit" #aliceblue;line:blue;line.dotted;text:blue {
         agent hmupackrece as "HMU package recieved"
         agent auproc as "Audio processing" 
-        agent noisemes as "Noise messurement"
+        agent noisemes as "Noise calculation"
         agent acshokdet as "Acoustic shock detection"
         package PUpackage as "Noise Data\nShock Data\nHMU ID\nTime stamp"
     }
