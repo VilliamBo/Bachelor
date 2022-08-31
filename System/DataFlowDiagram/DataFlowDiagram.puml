@@ -7,8 +7,9 @@
     agent au as "Audio"
 
     card HMU as "HMU - Headset Measurement Unit" #aliceblue;line:blue;line.dotted;text:blue {
-        agent recau as "Audio recording"
-        package HMUPackage as "Digital audio file\nHMU ID\nTime stamp" 
+        agent InnerRecau as "Inner audio recording"
+        agent OutterRecau as "Outter audio recording"
+        package HMUPackage as "Digital audio files\nHMU ID\nTime stamp" 
         agent hmupacktrans as "HMU package transmission"
     }
 
@@ -48,9 +49,11 @@
     interface end #white
 
     start -> au
-    au -> recau
-    recau -> HMUPackage
-    HMUPackage -> hmupacktrans
+    au -> OutterRecau
+    au --> InnerRecau
+    OutterRecau -> HMUPackage
+    HMUPackage <-- InnerRecau
+    HMUPackage --> hmupacktrans
     hmupacktrans --> hmupackrece
     auproc <- hmupackrece
     noisemes <- auproc
