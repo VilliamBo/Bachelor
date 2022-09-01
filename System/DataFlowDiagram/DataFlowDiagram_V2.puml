@@ -1,0 +1,62 @@
+
+@startuml dataFlowDiagram      
+    interface start #Black
+    agent au as "Audio"
+
+    card HMU as "HMU - Headset Measurement Unit" #aliceblue;line:blue;line.dotted;text:blue {
+        agent InnerRecau as "Inner audio recording"
+        agent OutterRecau as "Outter audio recording"
+        agent auproc as "Audio processing" 
+        agent noisemes as "Noise calculation"
+        agent acshokdet as "Acoustic shock detection"
+        package PUpackage as "Noise Data\nShock Data\nHMU ID\nTime stamp"
+    }
+
+    interface end #white
+
+    card DU as "DU - Display Unit" #aliceblue;line:blue;line.dotted;text:blue {
+        agent displayData as "display noise and acousticshock data"
+        agent recPUpack as "Recevie HMU ID belonging to a User ID\n and latest package's with that HMU ID"
+        agent enableUser as "Link User ID with HMU ID"
+        
+    }
+   
+
+    database DB as "
+        PU package's (HMU ID = 1)
+        ----
+        PU package's (HMU ID = 2)
+        ----
+        ...
+        ----
+        PU package's (HMU ID = n)
+        ====
+        User ID 1 (HMU ID = 9)
+        ----
+        User ID 2, (NoHeadset)
+        ----
+        User ID 3, (HMU ID = 2)
+        ---
+        ...
+        ---
+        User ID n, (HMU ID = x)
+        " 
+    
+
+    start -> au
+    au -> OutterRecau
+    au --> InnerRecau
+    OutterRecau --> auproc
+    InnerRecau -> auproc
+    auproc -> noisemes
+    noisemes -> acshokdet   
+    acshokdet -> PUpackage 
+    displayData --> end 
+    
+    displayData -> recPUpack
+    recPUpack -[#aliceblue]> enableUser
+    DB --> recPUpack
+    DB <-- enableUser
+    PUpackage --> DB
+
+@enduml
