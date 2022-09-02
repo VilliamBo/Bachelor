@@ -1,0 +1,42 @@
+@startuml BDD_System
+
+folder "bdd. Noise Monitoring System" as BDD  {
+    object NoiseMonitoringSystem {
+    }
+    object DisplayUnit {
+        **Parts**
+        GUI
+    }
+
+    object MeasurementUnit {
+        **parts**
+        : Mic Inner
+        : Mic Outer
+        : Processing Unit \n
+        U I
+            \t: Power Button
+            \t: Power LED
+            \t: Connection LED
+        ..
+        **ports**
+        in Mic Inner : Sound 
+        in Mic Outer : Sound
+        out Processing Unit : MeasurementPackage\n
+        U I
+            \tin Power Button : force 
+            \tout Power LED : light
+            \tout Conneciton LED : light
+    }
+
+    object Database {
+    }
+
+    NoiseMonitoringSystem *-- DisplayUnit
+    NoiseMonitoringSystem *-- MeasurementUnit
+    NoiseMonitoringSystem *-- Database
+}
+
+
+
+
+@enduml
