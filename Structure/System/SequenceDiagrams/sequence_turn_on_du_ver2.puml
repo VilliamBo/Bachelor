@@ -1,0 +1,24 @@
+@startuml UC2 : Turn on Display Unit
+actor NoiseExposureInvestigator as nei
+participant DisplayUnit as du
+participant Database as db
+
+nei ->> du : Powers on
+activate du
+
+du -> du : Botting...
+deactivate du
+
+du -> db : Fetch stored data
+activate du
+activate db
+db --> du : data
+deactivate db
+
+du -> nei : Present measurement data
+deactivate du
+
+note left
+    Hours left: x (default)
+end note
+@enduml

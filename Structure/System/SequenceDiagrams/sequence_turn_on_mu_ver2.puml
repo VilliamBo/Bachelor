@@ -1,0 +1,33 @@
+@startuml UC1 : Turn on Measurement Unit
+actor HeadsetUser as hu
+participant MeasurementUnit as mu
+
+hu ->> mu: Presses power button
+alt Sufficient battery power
+    activate mu
+    mu -> mu: Turn On Power LED
+
+    loop Every 1/samplerate: record sample
+
+    loop every 10 ms
+        mu -> mu : Process recorded soundsamples
+    end
+
+    loop every 1 min
+        mu -> mu : Process soundsamples to MeasurementPackage
+    end
+
+    end
+
+else Insufficient battery power
+    mu -> mu: Power LED off
+    
+    note right
+    HeadsetUser will have
+    to swap batteries in the 
+    MeasurmentUnit
+    end note
+
+    hu -> mu: Replace batteries
+end
+@enduml
