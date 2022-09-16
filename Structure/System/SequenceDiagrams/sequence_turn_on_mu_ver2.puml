@@ -15,6 +15,15 @@ alt Sufficient battery power
 
     loop every 1 min
         mu -> mu : Process soundsamples to MeasurementPackage
+        mu --> hu : Write MeasurementPackage to terminal
+        note left
+        Headset user can
+        read processed
+        MeasurementPackage
+        on terminal screen
+        connected to
+        Measurement Unit
+        end note
     end
 
     end
@@ -24,10 +33,10 @@ else Insufficient battery power
     
     note right
     HeadsetUser will have
-    to swap batteries in the 
+    to recharge batteries in the 
     MeasurmentUnit
     end note
 
-    hu -> mu: Replace batteries
+    hu -> mu: Charge batteries
 end
 @enduml

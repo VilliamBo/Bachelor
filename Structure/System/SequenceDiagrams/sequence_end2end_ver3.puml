@@ -1,56 +1,27 @@
 @startuml sequence_diagram_e2e
+!pragma teoz true
 
 actor NoiseExposureInvestigator as nei
-participant MeasurementUnit as mu
 participant DisplayUnit as du
 database Database as db
+participant MeasurementUnit as mu
 actor HeadsetUser as hu
 
-nei ->> du : Turns on
+nei ->> du : Turn on
 ref over nei, du : UC2: Turn on Display Unit
 
-hu ->> mu : Turns on
+{start} hu ->> mu : Turn on
 ref over hu, mu : UC1: Turn on Measurement Unit
 
-loop every 1 min
+ref over nei, du, db : UC3: Interact with Display Unit
 
-== Display from Measurement Unit == 
-    mu -> nei : Print raw MeasurementPackage
-    note left
-    MuID: n
-    Accoustic shocks: m
-    Hours left: x
-    end note
+{end} hu ->> mu : Turn off
 
-== Display from Database == 
-    du -> db : Request MeasurementPackages
-    activate du
-    activate db
-    db --> du : MeasurementPackages
-    deactivate db
-
-    du -> nei : Present measurement data
-    deactivate du
-
-    note left
-    Hours left: x (default)
-    end note
-
-    alt change of measurementPackage info
-        nei -> du : Press GUI buttons
-        activate du
-
-        note right
-        **Button for each parameter:**
-        * MuID: n
-        * Acoustic shocks: m
-        * Hours left: x (default)
-        * Timestamp
-        end note
-
-        du --> nei : Changed presented measurement data
-        deactivate du
-    end
-end
+{start} <-> {end} : End working day
+note left
+Working day
+aproximated as
+8 hours
+end note
 
 @enduml

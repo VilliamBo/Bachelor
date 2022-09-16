@@ -6,12 +6,23 @@ participant Database as db
 nei ->> du : Powers on
 activate du
 
-du -> du : Botting...
+du -> du : Booting...
+du --> nei : Screen lighting up
 deactivate du
 
-du -> db : Fetch stored data
+du -> db : Fetch measured data
 activate du
 activate db
+
+alt Internetconnection fail
+
+db --> du : connection error
+du --> nei : "Couldn't connect to server"
+
+else Internetconnection ok
+
+loop every 1 min
+
 db --> du : data
 deactivate db
 
@@ -19,6 +30,11 @@ du -> nei : Present measurement data
 deactivate du
 
 note left
-    Hours left: x (default)
+    **Today** (default):
+    * Acoustic shocks
+    * Hours left
 end note
+
+end
+end
 @enduml

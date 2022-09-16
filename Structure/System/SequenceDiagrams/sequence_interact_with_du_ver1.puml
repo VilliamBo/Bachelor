@@ -1,0 +1,24 @@
+@startuml UC3 : Interact with Display Unit
+
+actor NoiseExposureInvestigator as nei
+participant DisplayUnit as du
+database Database as db
+
+        nei -> du : Press GUI button
+        activate du
+
+        note right
+        **Button "Today":**
+        * Acoustic shocks
+        * Hours left
+        
+        **Button "Statistics":**
+        * Total Acoustic shocks
+        * Exceeded tolerated noise
+          exposure occurences
+        end note
+
+        du --> nei : Update display
+        deactivate du
+
+@enduml
