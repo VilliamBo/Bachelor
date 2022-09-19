@@ -1,0 +1,40 @@
+@startuml DataFlowDiagram_V4     
+    interface start #Black
+    agent au as "Audio"
+
+    card MU as "MU - Measurement Unit" #aliceblue;line:blue;line.dotted;text:blue {
+        agent InnerRecau as "Inner audio recording"
+        agent auproc as "Audio processing" 
+        agent noisemes as "Noise calculation"
+        agent acshokdet as "Acoustic shock detection"
+        package MeasurementPackage as "Noise Exposure Data\nAcoustic Shock Data\nMU ID\nTime stamp"
+    }
+
+    interface end #white
+
+    card DU as "DU - Display Unit" #aliceblue;line:blue;line.dotted;text:blue {
+        agent displayData as "Display noise exposure and acoustic shock data"
+        /'agent recPUpack as "Receive noise exposure and acoustic shock data"'/
+        package MeasurementPackageWithTimestamp as "Noise Exposure Data\nAcoustic Shock Data\nMU ID\nTime stamp"
+    }
+
+    database DB as "
+        MeasurementPackage (MU ID = n)
+        " 
+
+    start -> au
+    au --> InnerRecau
+    InnerRecau -> auproc
+    auproc->acshokdet
+    acshokdet->noisemes
+
+    displayData <- MeasurementPackageWithTimestamp
+    DB --> MeasurementPackageWithTimestamp
+    MeasurementPackage --> DB
+    
+    noisemes -> MeasurementPackage 
+    displayData --> end 
+    
+    
+
+@enduml
