@@ -13,8 +13,10 @@ ref over nei, du : UC2: Turn on Display Unit
 {start} hu ->> mu : Turn on
 ref over hu, mu : UC1: Turn on Measurement Unit
 
+alt Interaction with Display Unit
+nei ->> du : Touch display button
 ref over nei, du, db : UC3: Interact with Display Unit
-
+end
 {end} hu ->> mu : Turn off
 
 {start} <-> {end} : End working day
