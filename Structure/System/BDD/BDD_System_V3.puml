@@ -1,0 +1,47 @@
+@startuml BDD_System_V3
+
+folder "bdd. Noise Monitoring System" as BDD  {
+    object NoiseMonitoringSystem {
+        **Ports**
+            in Noise : Sound Pressure
+            in DisplayUnit : Touch
+            out DisplayUnit : Text
+    }
+    object DisplayUnit {
+        **Ports**
+        in DisplayUnit : MeasurementPackage
+        in DisplayUnit : Touch
+        out DisplayUnit : Text
+    }
+
+    object MeasurementUnit {
+        **Parts**
+        : Mic Inner
+        : Processing Unit \n
+        U I
+            \t: Power Button
+            \t: Power LED
+        ..
+        **Ports**
+        in Mic Inner : Sound Pressure
+        out Processing Unit : MeasurementPackage\n
+        U I
+            \tin Power Button : Force 
+            \tout Power LED : Light
+    }
+
+    object Database {
+        **Ports**
+        in Database : MeasurementPackage
+        out Database : MeasurementPackage
+    }
+
+    NoiseMonitoringSystem *-- DisplayUnit
+    NoiseMonitoringSystem *-- MeasurementUnit
+    NoiseMonitoringSystem *-- Database
+}
+
+
+
+
+@enduml
